@@ -29,7 +29,7 @@ jobs:
         run: pnpm install
 
       - name: build
-        run: pnpm run docs
+        run: npm run docs-build
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
