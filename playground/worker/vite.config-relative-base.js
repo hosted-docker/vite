@@ -1,8 +1,7 @@
-const path = require('node:path')
-const vite = require('vite')
-const workerPluginTestPlugin = require('./worker-plugin-test-plugin')
+import { defineConfig } from 'vite'
+import workerPluginTestPlugin from './worker-plugin-test-plugin'
 
-module.exports = vite.defineConfig({
+export default defineConfig({
   base: './',
   resolve: {
     alias: {
@@ -11,7 +10,7 @@ module.exports = vite.defineConfig({
   },
   worker: {
     format: 'es',
-    plugins: [workerPluginTestPlugin()],
+    plugins: () => [workerPluginTestPlugin()],
     rollupOptions: {
       output: {
         assetFileNames: 'worker-assets/worker_asset-[name]-[hash].[ext]',
@@ -22,6 +21,7 @@ module.exports = vite.defineConfig({
   },
   build: {
     outDir: 'dist/relative-base',
+    assetsInlineLimit: 100, // keep SVG as assets URL
     rollupOptions: {
       output: {
         assetFileNames: 'other-assets/[name]-[hash].[ext]',
@@ -31,7 +31,7 @@ module.exports = vite.defineConfig({
     },
   },
   testConfig: {
-    baseRoute: '/relative-base/',
+    previewBase: '/relative-base/',
   },
   plugins: [
     workerPluginTestPlugin(),
@@ -47,4 +47,5 @@ module.exports = vite.defineConfig({
       },
     },
   ],
+  cacheDir: 'node_modules/.vite-relative-base',
 })

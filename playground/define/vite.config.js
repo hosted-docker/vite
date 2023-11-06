@@ -1,9 +1,12 @@
-module.exports = {
+import { defineConfig } from 'vite'
+
+export default defineConfig({
   define: {
     __EXP__: 'false',
     __STRING__: '"hello"',
     __NUMBER__: 123,
     __BOOLEAN__: true,
+    __UNDEFINED__: undefined,
     __OBJ__: {
       foo: 1,
       bar: {
@@ -22,4 +25,4 @@ module.exports = {
     __VAR_NAME__: false,
     __STRINGIFIED_OBJ__: JSON.stringify({ foo: true }),
   },
-}
+})
