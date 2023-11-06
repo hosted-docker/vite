@@ -16,21 +16,23 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          ref: "main"
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install pnpm
-        run: npm i pnpm@7 -g
+        uses: pnpm/action-setup@v2.4.0
 
-      - uses: actions/setup-node@v2
+      - name: Set node version to 18
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install deps
         run: pnpm install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
 
       - name: build
         run: npm run docs-build
